@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments & IDEs
+.env
+.venv
+env/
+venv/
+ENV/
+.vscode/
+.idea/
+
+# Large Model Checkpoints & Temporary Artifacts
+models/checkpoints/
+models/best_model/
+*.pt
+*.bin
+*.onnx
+*.safetensors
+*.log
+
+# Audio artifacts & temporary outputs (keep sample placeholders if needed)
+data/audio/generated_speeches/*.wav
+data/audio/generated_speeches/*.mp3
+web/audio/speech_*.wav
+web/audio/speech_*.mp3
+test_gtts.mp3
+test_speech.mp3
+
+# OS generated files
+.DS_Store
+Thumbs.db

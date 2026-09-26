@@ -1,0 +1,61 @@
+# =====================================================================
+# End-to-End Transformer Summarization + Neural TTS Pipeline Config
+# =====================================================================
+
+# Model Configuration for Abstractive Summarization
+summarization:
+  model_name: "facebook/bart-large-cnn" # Alternative: "google/pegasus-arxiv", "t5-base", "philschmid/bart-large-cnn-samsum"
+  max_length: 150
+  min_length: 30
+  num_beams: 4
+  length_penalty: 2.0
+  no_repeat_ngram_size: 3
+  early_stopping: true
+  device: "auto" # "cuda", "cpu", or "auto"
+  batch_size: 4
+  chunk_overlap: 50
+  max_chunk_tokens: 1024
+
+# Neural Text-to-Speech Configuration
+tts:
+  model_name: "tts_models/en/ljspeech/glow-tts" # Coqui TTS / HuggingFace SpeechT5 / FastPitch / pyttsx3 fallback
+  sample_rate: 22050
+  device: "auto" # "cuda", "cpu", or "auto"
+  speaker: "default"
+  speed: 1.0
+  pitch_shift: 0.0
+  normalize_audio: true
+  trim_silence: true
+  engine_fallback_order: ["coqui", "hf_speecht5", "pyttsx3", "gtts"]
+
+# Text Normalization & Preprocessing Configuration
+preprocessing:
+  max_input_length: 1024
+  min_input_length: 20
+  language: "en"
+  remove_special_chars: true
+  expand_contractions: true
+  normalize_whitespace: true
+  sentence_segmentation: true
+
+# Evaluation & Metrics Configuration
+evaluation:
+  rouge_metrics: ["rouge1", "rouge2", "rougeL", "rougeLsum"]
+  mos_scale: 5
+  consistency_threshold: 0.70
+  semantic_similarity_model: "all-MiniLM-L6-v2" # sentence-transformers
+  check_entity_preservation: true
+  evaluate_audio_snr: true
+
+# Data and Storage Paths
+data:
+  input_dir: "data/raw"
+  output_dir: "data/processed"
+  audio_output_dir: "data/audio/generated_speeches"
+  results_dir: "results"
+  raw_samples_file: "data/raw/sample_conversations.json"
+  summarized_output_file: "data/processed/summarized_outputs.json"
+  evaluation_metrics_file: "results/evaluation_metrics.json"
+  mos_scores_file: "results/mos_scores.csv"
+  num_workers: 4
+  batch_size: 8

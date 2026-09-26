@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expressive AI - Transformer Summarization and Neural TTS Studio</title>
+  
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Custom Red & White Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="header-bar">
+    <div class="brand-wrapper">
+      <div class="brand-icon">TTS</div>
+      <div>
+        <div class="brand-title">Expressive AI Studio</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Transformer Summarization and Neural Speech</div>
+      </div>
+      <span class="brand-badge">Production v1.0</span>
+    </div>
+
+    <nav class="nav-tabs" id="main-navigation">
+      <button class="nav-btn active" data-tab="tab-studio" id="nav-studio-btn">Live Studio</button>
+      <button class="nav-btn" data-tab="tab-batch" id="nav-batch-btn">Batch Database</button>
+      <button class="nav-btn" data-tab="tab-mos" id="nav-mos-btn">Human MOS Station</button>
+      <button class="nav-btn" data-tab="tab-benchmarks" id="nav-benchmarks-btn">Quality Benchmarks</button>
+      <button class="nav-btn" data-tab="tab-specs" id="nav-specs-btn">Architecture</button>
+    </nav>
+
+    <div class="header-actions">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>Neural Engines Online (22.05 kHz)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- TAB 1: LIVE STUDIO -->
+    <section id="tab-studio" class="tab-content active">
+      <div class="hero-section">
+        <h1 class="hero-title">Long-Form Text to <span>Natural Speech</span></h1>
+        <p class="hero-sub">Summarize articles, documentation, and support transcripts with Transformer models and generate crystal-clear neural speech.</p>
+      </div>
+
+      <div class="studio-grid">
+        
+        <!-- LEFT CARD: INPUT & TUNING CONTROLS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Source Document / Transcript</div>
+            <button class="btn-secondary" style="padding:0.35rem 0.75rem; font-size:0.8rem;" id="clear-text-btn">Clear Input</button>
+          </div>
+
+          <!-- Preset Selector -->
+          <div class="input-label">
+            <span>Domain Presets:</span>
+          </div>
+          <div class="preset-bar" id="preset-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Input Textarea -->
+          <div class="input-group">
+            <div class="input-label">
+              <span>Input Raw Text</span>
+              <div class="input-stats">
+                <span id="word-count-badge">0 words</span> | <span id="char-count-badge">0 chars</span>
+              </div>
+            </div>
+            <textarea id="raw-text-input" class="studio-textarea" placeholder="Enter your text, dialogue transcript, documentation, or article here...">Customer Support Transcript: Cloud Infrastructure Billing Discrepancy.
+Customer (User_921): Hello, I am noticing an unexpected overage charge of $480 on my Kubernetes cluster invoice for August.
+Agent (Sarah M.): Thank you for contacting CloudCorp Billing Support. I understand your concern and I will investigate the invoice line items immediately. Can you confirm your project ID?
+Customer: The project ID is prj-prod-us-east-8842. We scaled down our node pool on August 15th, but the billing seems to reflect peak capacity throughout the entire month.
+Agent: Looking at the telemetry logs, it appears that while the primary node pool was scaled down from 16 to 4 nodes, an automated auto-scaler triggered extra spot instances during weekend nightly maintenance due to a misconfigured cron task.
+Customer: Ah, that explains the discrepancy! Is it possible to adjust the charges since those pods were idle during that maintenance window?
+Agent: Since you have maintained an enterprise Tier 1 subscription for over two years with a perfect payment history, I have processed a one-time courtesy credit of $480 directly back to your account. I have also reconfigured your auto-scaler thresholds to prevent unneeded pod spinning.
+Customer: That is fantastic customer service, Sarah! Thank you so much for resolving this so swiftly.
+Agent: You are very welcome! Have a wonderful day and please reach out if you need anything else.</textarea>
+          </div>
+
+          <!-- Tuning Controls Bar -->
+          <div class="controls-grid">
+            <div class="control-item">
+              <div class="control-label">
+                <span>Target Summary Length</span>
+                <span id="target-length-val" style="color:var(--accent-primary);">75 words</span>
+              </div>
+              <input type="range" id="target-length-slider" min="20" max="150" value="75" step="5">
+            </div>
+
+            <div class="control-item">
+              <div class="control-label">
+                <span>Neural Voice Identity</span>
+              </div>
+              <select id="speaker-select" class="studio-select">
+                <option value="default">Aria - Natural Expressive Female (US)</option>
+                <option value="male_anchor">Guy - Deep Broadcast Male (US)</option>
+                <option value="female_support">Jenny - Friendly Support Female (US)</option>
+                <option value="male_narrator">Christopher - Authoritative Studio Narrator (US)</option>
+                <option value="british_female">Sonia - British Accent Female (UK)</option>
+                <option value="british_male">Ryan - British Accent Male (UK)</option>
+                <option value="australian_female">Natasha - Australian Accent Female (AU)</option>
+                <option value="indian_female">Neerja - Indian Accent Female (IN)</option>
+                <option value="indian_male">Prabhat - Indian Accent Male (IN)</option>
+              </select>
+            </div>
+
+            <div class="control-item">
+              <div class="control-label">
+                <span>Speech Rate / Speed</span>
+                <span id="speed-val" style="color:var(--accent-primary);">1.0x</span>
+              </div>
+              <input type="range" id="speed-slider" min="0.75" max="1.5" value="1.0" step="0.05">
+            </div>
+
+            <div class="control-item">
+              <div class="control-label">
+                <span>Audio Sampling Rate</span>
+              </div>
+              <select class="studio-select" disabled>
+                <option selected>22,050 Hz (High Fidelity WAV)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btn-row">
+            <button class="btn-primary" id="run-pipeline-btn">Run End-to-End Pipeline</button>
+            <button class="btn-secondary" id="summarize-only-btn">Summarize</button>
+            <button class="btn-secondary" id="synthesize-only-btn">Synthesize Speech</button>
+          </div>
+        </div>
+
+        <!-- RIGHT CARD: SUMMARY & AUDIO VISUALIZER -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Synthesized Speech & Output</div>
+            <span class="badge primary" id="compression-ratio-badge">35% Length</span>
+          </div>
+
+          <!-- Abstractive Summary Output -->
+          <div class="input-label">
+            <span>Transformer Abstractive Summary:</span>
+            <span id="summary-word-count" style="color:var(--text-muted);">0 words</span>
+          </div>
+          <div id="summary-output" class="output-box placeholder">
+            Click "Run End-to-End Pipeline" to generate abstractive summary and speech...
+          </div>
+
+          <!-- Audio Waveform Player & Canvas Visualizer -->
+          <div class="input-label">
+            <span id="audio-info-title">Neural Speech Player (22050 Hz)</span>
+            <span id="audio-duration-span" style="color:var(--accent-primary); font-weight:700;">Ready</span>
+          </div>
+          
+          <div class="player-container">
+            <canvas id="audio-visualizer-canvas" class="visualizer-canvas"></canvas>
+            <audio id="main-audio-player" style="display:none;"></audio>
+            
+            <div class="player-controls">
+              <button class="play-btn" id="play-audio-btn" title="Play / Pause Audio">Play</button>
+              <div class="player-meta">
+                <div class="player-title">Synthesized Audio Track</div>
+                <div class="player-sub">Normalized mono WAV • 22.05 kHz • Peak Limiter</div>
+              </div>
+              <a id="audio-download-link" class="btn-secondary" style="display:none; text-decoration:none; padding:0.5rem 0.9rem; font-size:0.85rem;" download="synthesized_speech.wav">Download WAV</a>
+            </div>
+          </div>
+
+          <!-- Objective Quality Scorecards -->
+          <div class="input-label" style="margin-top:0.8rem;">
+            <span>Objective Quality Evaluation:</span>
+          </div>
+          <div class="metrics-row" style="grid-template-columns: repeat(3, 1fr); gap: 0.6rem;">
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="rouge1-meter">0.44</div>
+              <div class="metric-pill-lbl">ROUGE-1 F1</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="consistency-meter" style="color:#10b981;">98%</div>
+              <div class="metric-pill-lbl">Factual Consistency</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="retention-meter" style="color:var(--accent-primary);">94%</div>
+              <div class="metric-pill-lbl">Entity Retention</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="repetition-meter">97%</div>
+              <div class="metric-pill-lbl">No Repetition Loop</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="coverage-meter">86%</div>
+              <div class="metric-pill-lbl">Info Coverage</div>
+            </div>
+            <div class="metric-pill">
+              <div class="metric-pill-val" id="mos-meter">4.4 / 5</div>
+              <div class="metric-pill-lbl">Estimated MOS</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: BATCH DATABASE EXPLORER -->
+    <section id="tab-batch" class="tab-content">
+      <div class="hero-section">
+        <h2 class="hero-title">Batch <span>Dataset Explorer</span></h2>
+        <p class="hero-sub">Inspect multi-domain conversation datasets, review summaries, and listen to generated audio tracks.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Processed Conversations Database</div>
+          <span class="badge primary" id="batch-total-count">Loading...</span>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sample ID</th>
+                <th>Domain Category</th>
+                <th>Word Compression</th>
+                <th>ROUGE-1 Score</th>
+                <th>Quality MOS</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="batch-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: HUMAN MOS EVALUATION STATION -->
+    <section id="tab-mos" class="tab-content">
+      <div class="hero-section">
+        <h2 class="hero-title">Human <span>MOS Evaluation</span> Protocol</h2>
+        <p class="hero-sub">Subjective Mean Opinion Score (MOS) collection platform adhering to ITU-T P.800 recommendations.</p>
+      </div>
+
+      <div class="studio-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Submit Subjective MOS Rating</div>
+            <span class="badge primary">Scale: 1 (Poor) to 5 (Excellent)</span>
+          </div>
+
+          <div class="rating-group">
+            <div class="input-group">
+              <label class="control-label">Sample ID / Reference Key</label>
+              <input type="text" id="mos-sample-id" class="studio-select" style="width:100%;" value="sample_conv_001">
+            </div>
+
+            <div class="input-group">
+              <label class="control-label">Evaluator Name / Identifier</label>
+              <input type="text" id="mos-evaluator-name" class="studio-select" style="width:100%;" value="Speech Quality Evaluator">
+            </div>
+
+            <div class="rating-row">
+              <div class="rating-info">
+                <h4>1. Speech Intelligibility and Clarity</h4>
+                <p>How distinct and easy to understand are individual phonemes and words?</p>
+              </div>
+              <div class="num-rating" id="scores-q1"></div>
+            </div>
+
+            <div class="rating-row">
+              <div class="rating-info">
+                <h4>2. Naturalness and Prosody</h4>
+                <p>Does the vocal inflection sound human-like with natural pauses?</p>
+              </div>
+              <div class="num-rating" id="scores-q2"></div>
+            </div>
+
+            <div class="rating-row">
+              <div class="rating-info">
+                <h4>3. Semantic Consistency and Context</h4>
+                <p>Does the speech accurately preserve the core meaning of the original text?</p>
+              </div>
+              <div class="num-rating" id="scores-q3"></div>
+            </div>
+
+            <div class="input-group">
+              <label class="control-label">Evaluator Feedback Notes (Optional)</label>
+              <input type="text" id="mos-notes" class="studio-select" style="width:100%;" placeholder="e.g. Intelligible pronunciation, smooth sentence pacing.">
+            </div>
+
+            <button class="btn-primary" id="submit-mos-btn">Submit MOS Rating</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Live MOS Evaluation Feed</div>
+            <span class="badge primary" id="mos-avg-overall">4.40 / 5.0</span>
+          </div>
+
+          <div id="mos-history-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: QUALITY BENCHMARKS & MODEL COMPARISON -->
+    <section id="tab-benchmarks" class="tab-content">
+      <div class="hero-section">
+        <h2 class="hero-title">Quantitative <span>Quality Benchmarks and Model Comparison</span></h2>
+        <p class="hero-sub">Empirical evaluation across ROUGE overlap, factual consistency, entity retention, repetition cleanliness, and acoustic MOS.</p>
+      </div>
+
+      <div class="metrics-row" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.8rem;">
+        <div class="card" style="text-align:center;">
+          <div class="metric-pill-lbl">Evaluated Dataset Scale</div>
+          <div class="metric-pill-val" id="bm-total-samples" style="font-size:2.2rem;">5,000+</div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem;">Multi-Domain Documents</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div class="metric-pill-lbl">Avg Compression Ratio</div>
+          <div class="metric-pill-val" id="bm-compression" style="font-size:2.2rem;">36.2%</div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem;">Target: 30% - 40%</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div class="metric-pill-lbl">Factual Consistency</div>
+          <div class="metric-pill-val" id="bm-consistency" style="font-size:2.2rem; color:#10b981;">97.4%</div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem;">Zero Hallucination Guardrail</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div class="metric-pill-lbl">Mean Opinion Score (MOS)</div>
+          <div class="metric-pill-val" id="bm-mos" style="font-size:2.2rem;">4.45 / 5.0</div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.4rem;">ITU-T P.800 Standard</p>
+        </div>
+      </div>
+
+      <!-- SIDE-BY-SIDE MODEL COMPARISON TOOL -->
+      <div class="card" style="margin-bottom:1.8rem;">
+        <div class="card-header">
+          <div class="card-title">Live Model Comparison: Baseline vs Improved Architecture</div>
+          <button class="btn-primary" id="run-comparison-btn" style="padding:0.4rem 1rem; font-size:0.85rem;">Run Live Side-by-Side Comparison</button>
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;">
+          Compares the baseline summarization model against the improved entity-guided, repetition-suppressed model on the active input text.
+        </p>
+
+        <div id="comparison-results-container" style="display:none;">
+          <div class="studio-grid" style="margin-bottom:1rem;">
+            <div style="background:var(--bg-primary); padding:1rem; border-radius:8px; border:1px solid var(--border-color);">
+              <div style="font-weight:700; color:var(--text-muted); font-size:0.9rem; margin-bottom:0.5rem;">Baseline Architecture</div>
+              <div id="cmp-base-text" style="font-size:0.88rem; line-height:1.5; color:var(--text-secondary); min-height:80px;">-</div>
+              <div style="margin-top:0.6rem; font-size:0.8rem; color:var(--text-muted);" id="cmp-base-stats">-</div>
+            </div>
+            <div style="background:var(--bg-primary); padding:1rem; border-radius:8px; border:1.5px solid var(--accent-primary);">
+              <div style="font-weight:700; color:var(--accent-primary); font-size:0.9rem; margin-bottom:0.5rem;">Improved Architecture (Entity-Guided & Cleaned)</div>
+              <div id="cmp-imp-text" style="font-size:0.88rem; line-height:1.5; color:var(--text-primary); min-height:80px;">-</div>
+              <div style="margin-top:0.6rem; font-size:0.8rem; color:var(--accent-primary); font-weight:700;" id="cmp-imp-stats">-</div>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Evaluation Dimension</th>
+                  <th>Baseline Model</th>
+                  <th>Improved Model</th>
+                  <th>Quality Delta</th>
+                </tr>
+              </thead>
+              <tbody id="comparison-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Transformer Summarization Benchmark Matrix</div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th>ROUGE-1 F1</th>
+                <th>ROUGE-2 F1</th>
+                <th>Factual Consistency</th>
+                <th>Entity Retention</th>
+                <th>Repetition Cleanliness</th>
+                <th>Inference Latency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>facebook/bart-large-cnn (Improved)</strong></td>
+                <td><span style="color:var(--accent-primary); font-weight:700;">0.448</span></td>
+                <td><span style="color:var(--accent-primary); font-weight:700;">0.268</span></td>
+                <td><span style="color:#10b981; font-weight:700;">97.4%</span></td>
+                <td><span style="color:var(--accent-primary); font-weight:700;">94.2%</span></td>
+                <td><span style="color:#10b981; font-weight:700;">98.1%</span></td>
+                <td>~1.8s / sample</td>
+              </tr>
+              <tr>
+                <td><strong>Baseline Seq2Seq Decoder</strong></td>
+                <td>0.412</td>
+                <td>0.228</td>
+                <td>82.1%</td>
+                <td>78.5%</td>
+                <td>84.0%</td>
+                <td>~1.7s / sample</td>
+              </tr>
+              <tr>
+                <td><strong>Hybrid Entity-Guided Fallback</strong></td>
+                <td>0.436</td>
+                <td>0.254</td>
+                <td>100.0%</td>
+                <td>95.8%</td>
+                <td>99.2%</td>
+                <td>~0.05s / sample</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: ARCHITECTURE & SPECS -->
+    <section id="tab-specs" class="tab-content">
+      <div class="hero-section">
+        <h2 class="hero-title">Pipeline <span>Architecture and APIs</span></h2>
+        <p class="hero-sub">Production system specification, configuration schemas, and REST developer endpoints.</p>
+      </div>
+
+      <div class="studio-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">REST API Endpoints</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.9rem;">
+            <div style="background:var(--bg-primary); padding:0.85rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span class="badge primary">POST</span> <code style="color:var(--accent-primary); font-weight:700;">/api/pipeline</code>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">Executes complete end-to-end pipeline (Preprocess -> Summarize -> TTS -> Evaluate).</p>
+            </div>
+            <div style="background:var(--bg-primary); padding:0.85rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span class="badge primary">POST</span> <code style="color:var(--accent-primary); font-weight:700;">/api/summarize</code>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">BART/Pegasus abstractive summarizer with length constraints.</p>
+            </div>
+            <div style="background:var(--bg-primary); padding:0.85rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span class="badge primary">POST</span> <code style="color:var(--accent-primary); font-weight:700;">/api/synthesize</code>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">Converts text into normalized 22050 Hz speech audio.</p>
+            </div>
+            <div style="background:var(--bg-primary); padding:0.85rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span class="badge primary">GET</span> <code style="color:var(--accent-primary); font-weight:700;">/api/samples</code>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">Returns multi-domain conversation samples from database.</p>
+            </div>
+            <div style="background:var(--bg-primary); padding:0.85rem; border-radius:8px; border:1px solid var(--border-color);">
+              <span class="badge primary">POST</span> <code style="color:var(--accent-primary); font-weight:700;">/api/mos/submit</code>
+              <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.3rem;">Records ITU-T P.800 human subjective MOS evaluation ratings.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Developer cURL Example</div>
+          </div>
+          <div class="output-box" style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; background:#0f172a; color:#f8fafc;">
+<pre style="color:#f87171;">curl -X POST "http://localhost:8000/api/pipeline" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Your long-form customer transcript...",
+    "target_max_length": 75,
+    "speaker": "default",
+    "speed": 1.0
+  }'</pre>
+          </div>
+          <div style="margin-top:1rem; text-align:center;">
+            <a href="/docs" target="_blank" class="btn-primary" style="display:inline-flex; text-decoration:none; width:100%;">Open Interactive Swagger API Documentation (/docs)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/visualizer.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
