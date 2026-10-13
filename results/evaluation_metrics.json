@@ -1,0 +1,12 @@
+{
+  "total_samples": 20,
+  "avg_rouge1": 0.7329,
+  "avg_rouge2": 0.7039,
+  "avg_rougeL": 0.7329,
+  "avg_compression_ratio": 0.5802,
+  "avg_consistency_score": 0.9948,
+  "avg_factual_consistency": 1.0,
+  "avg_entity_retention": 1.0,
+  "avg_semantic_similarity": 1.0,
+  "audio_quality_score": 3.79
+}

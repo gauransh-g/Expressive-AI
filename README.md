@@ -8,6 +8,8 @@
 
 > A production-grade, modular deep learning platform that summarizes long-form documents (technical reports, customer transcripts, financial filings, and research papers) with balanced multi-zone coverage, and synthesizes expressive, studio-quality speech (22,050 Hz) across multiple speaker personas.
 
+![Expressive AI Web Platform](docs/screenshots/expressive_ai_platform.png)
+
 ---
 
 ## 1. System Architecture
@@ -120,8 +122,8 @@ Expressive AI TTS system/
 
 ### Step 1: Clone Repository & Install Dependencies
 ```bash
-git clone https://github.com/<your-username>/expressive-ai-tts-system.git
-cd "expressive-ai-tts-system"
+git clone https://github.com/gauransh-g/Expressive-AI.git
+cd "Expressive-AI"
 pip install -r requirements.txt
 ```
 
